@@ -1,0 +1,55 @@
+config:
+  target: "<API End point>"
+  phases:
+    - duration: 300
+      arrivalRate: 5
+  payload:
+    path: "players.csv"
+    fields:
+      - "username"
+      - "password"
+    skipHeader: true
+  processor: "./processor.js"
+  
+before:
+  flow:
+    - log: "User pool data"
+    - get:
+        url: "/config"
+        afterResponse: "getUserPoolData"
+
+
+scenarios:
+  - beforeScenario: "setJWTToken"
+    flow:
+      - post:
+          url: "/allocate"
+          afterResponse: "logAllocationResponse"
+          headers:
+            Authorization: "{{ jwttoken }}"
+          json:
+            Username: "{{ username }}"
+      - get:
+          url: "/session"
+          afterResponse: "getSessionId"
+          headers:
+            Authorization: "{{ jwttoken }}"
+      - post:
+          url: "/updatestatus"
+          beforeRequest:
+            - "setDateTime"
+            - "setGameData"
+          afterResponse: "logUpdateStatusResponse"
+          headers:
+            Authorization: "{{ jwttoken }}"
+          json:
+            Timestamp: "{{ currentdatetime }}"
+            SessionId: "{{ sessionid }}"
+            Nickname: "{{ username }}"
+            Lives: "{{ lives }}"
+            Score: "{{ score }}"
+            Shots: "{{ shots }}"
+            Level: "{{ level }}"
+            
+          
+          
