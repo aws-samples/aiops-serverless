@@ -1,10 +1,10 @@
 {
-  "name": "alienattack.workshop",
+  "name": "underthesea.workshop",
   "version": "1.0.0",
   "description": "The foundational code supporting the AWS Under The Sea",
   "license": "MIT-0",
   "bin": {
-    "alienattack.workshop": "bin/cdk.js"
+    "underthesea.workshop": "bin/cdk.js"
   },
   "scripts": {
     "build": "tsc",
