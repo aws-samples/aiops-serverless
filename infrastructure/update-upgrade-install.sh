@@ -21,9 +21,8 @@ echo Installing CDK
 npm install -g aws-cdk@2.3.0
 echo --
 echo Bootstraping CDK
-account=$(aws sts get-caller-identity --output text --query 'Account')
-region=$(aws configure get region)
-cdk bootstrap $account/$region
+account=${ACCOUNT_ID}
+region=${AWS_REGION}
 echo --
 echo Installing dependencies
 cd cdk

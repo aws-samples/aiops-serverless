@@ -5,6 +5,9 @@
 ##
 # Automatically creates the environment name
 ##
+
+SKIPINPUT=${1:-N}
+
 setColor=$(tput setaf 3) # Green
 resetColor=$(tput sgr0) # Text reset
 echo "**************************************************************"
@@ -17,9 +20,13 @@ echo "This is a workaround to guarantee that this workshop can run"
 echo "with multiple users under a single AWS account"
 echo "**************************************************************"
 echo
-#read -p "What are your initials? " initials
-#initials=$(echo $initials | tr -cd "[a-zA-Z0-9]\n" | tr 'A-Z' 'a-z'  )
-initials="AIOPS"
+if [ "$SKIPINPUT" == "N" ]; then 
+    read -p "What are your initials? " initials
+    initials=$(echo $initials | tr -cd "[a-zA-Z0-9]\n" | tr 'A-Z' 'a-z'  )
+else
+    initials="AIOPS"
+fi
+
 
 ### Generating a random 6 hexadecimal digit code, like a0b1c2
 randomcode=$(openssl rand -hex 3)

@@ -51,9 +51,9 @@ title "DEPLOYING THE FRONT-END FOR THE ENVIRONMENT $envnameuppercase"
 #-------------------------------------------
 # Retrieving parameters from CloudFormation
 #-------------------------------------------
-apigtw=$(eval $(echo "aws cloudformation list-exports --query 'Exports[?contains(ExportingStackId,\`$envname\`) && contains(Name,\`apigtw\`)].Value | [0]' | xargs -I {} echo {}"))
-region=$(eval $(echo "aws cloudformation list-exports --query 'Exports[?contains(ExportingStackId,\`$envname\`) && contains(Name,\`region\`)].Value | [0]' | xargs -I {} echo {}"))
-url=$(eval $(echo "aws cloudformation list-exports --query 'Exports[?contains(ExportingStackId,\`$envname\`) && contains(Name,\`url\`)].Value | [0]' | xargs -I {} echo {}"))
+apigtw=$(eval $(echo "aws cloudformation list-exports --query 'Exports[?contains(ExportingStackId,\`$envname\`) && contains(Name,\`apigtw\`)].Value | [0]' --region ${AWS_REGION} | xargs -I {} echo {}"))
+region=$(eval $(echo "aws cloudformation list-exports --query 'Exports[?contains(ExportingStackId,\`$envname\`) && contains(Name,\`region\`)].Value | [0]' --region ${AWS_REGION}  | xargs -I {} echo {}"))
+url=$(eval $(echo "aws cloudformation list-exports --query 'Exports[?contains(ExportingStackId,\`$envname\`) && contains(Name,\`url\`)].Value | [0]' --region ${AWS_REGION}  | xargs -I {} echo {}"))
 #-------------------------------------------
 # UPDATING /application/resources/js/awsconfig.js
 #-------------------------------------------
@@ -73,7 +73,7 @@ more ./../application/resources/js/awsconfig.js
 # DEPLOYING THE WEBSITE ON S3
 #-------------------------------------------
 showHeader "DEPLOYING THE WEBSITE ON S3"
-aws s3 cp ./../application s3://$envnamelowercase.app --recursive
+aws s3 cp ./../application s3://$envnamelowercase.app --recursive --region ${AWS_REGION} 
 #-------------------------------------------
 # Finalization
 #-------------------------------------------
