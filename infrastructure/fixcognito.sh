@@ -36,20 +36,20 @@ function setRoleMappings() {
     unauthRoleArn=$(removeQuotes $( eval $getUnauthRole ))
     DEBUG echo $unauthRoleArn
 
-    getIdentityPool=$(echo aws "cognito-identity list-identity-pools --max-results 60 --query 'IdentityPools[?starts_with(IdentityPoolName,\`"$appName"\`)]|[0].IdentityPoolId'")
+    getIdentityPool=$(echo aws "cognito-identity list-identity-pools --max-results 60 --query 'IdentityPools[?starts_with(IdentityPoolName,\`"$appName"\`)]|[0].IdentityPoolId' --region ${AWS_REGION}")
     identityPoolId=$( removeQuotes $( eval $getIdentityPool ) )
     DEBUG echo $identityPoolId
 
-    getCognitoProviderName=$(echo "aws cognito-identity describe-identity-pool --identity-pool-id "$identityPoolId" --query 'CognitoIdentityProviders[0].ProviderName'")
+    getCognitoProviderName=$(echo "aws cognito-identity describe-identity-pool --identity-pool-id "$identityPoolId" --query 'CognitoIdentityProviders[0].ProviderName' --region ${AWS_REGION}")
     cognitoProviderName=$( removeQuotes $( eval $getCognitoProviderName ) )
     DEBUG echo $cognitoProviderName
 
     #aws cognito-idp list-identity-providers --user-pool-id us-east-2_nMp73BoqG
-    getUserPoolId=$(echo "aws cognito-idp list-user-pools --query 'UserPools[?Name == \`"$appName"\`]|[0].Id' --max-results=20")
+    getUserPoolId=$(echo "aws cognito-idp list-user-pools --query 'UserPools[?Name == \`"$appName"\`]|[0].Id' --max-results=20 --region ${AWS_REGION}")
     userPoolId=$( removeQuotes $( eval $getUserPoolId ) )
     DEBUG echo $userPoolId
 
-    clientId=$( removeQuotes $(aws cognito-idp list-user-pool-clients --user-pool-id $userPoolId --query 'UserPoolClients[0].ClientId') )
+    clientId=$( removeQuotes $(aws cognito-idp list-user-pool-clients --user-pool-id $userPoolId --query 'UserPoolClients[0].ClientId' --region ${AWS_REGION}) )
     DEBUG echo $clientId
     playersRoleValue=$appName"PlayersRole"
     managersRoleValue=$appName"ManagersRole"
@@ -83,7 +83,7 @@ END
     aws cognito-identity set-identity-pool-roles \
     --identity-pool-id $identityPoolId 
     --roles authenticated="$playersRoleArn",unauthenticated="$unauthRoleArn" \
-    --role-mappings '$roleMappings'
+    --role-mappings '$roleMappings' --region ${AWS_REGION}
 END
 )
     DEBUG echo $setIdentityPoolRoles

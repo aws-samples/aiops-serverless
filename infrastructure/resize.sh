@@ -15,7 +15,7 @@ VOLUMEID=$(aws ec2 describe-instances \
   --region $REGION)
 
 # Resize the EBS volume.
-aws ec2 modify-volume --volume-id $VOLUMEID --size $SIZE
+aws ec2 modify-volume --volume-id $VOLUMEID --size $SIZE --region $REGION
 
 # Wait for the resize to finish.
 while [ \
@@ -23,7 +23,7 @@ while [ \
     --volume-id $VOLUMEID \
     --filters Name=modification-state,Values="optimizing","completed" \
     --query "length(VolumesModifications)"\
-    --output text)" != "1" ]; do
+    --output text --region $REGION)" != "1" ]; do
 sleep 1
 done
 
