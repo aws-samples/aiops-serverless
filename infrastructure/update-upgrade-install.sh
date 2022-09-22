@@ -23,6 +23,7 @@ echo --
 echo Bootstraping CDK
 account=${ACCOUNT_ID}
 region=${AWS_REGION}
+cdk bootstrap $account/$region
 echo --
 echo Installing dependencies
 cd cdk
