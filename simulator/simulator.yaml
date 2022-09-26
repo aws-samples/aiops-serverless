@@ -1,8 +1,8 @@
 config:
   target: "<API End point>"
   phases:
-    - duration: 300
-      arrivalRate: 5
+    - duration: 1500
+      arrivalRate: 1
   payload:
     path: "players.csv"
     fields:
