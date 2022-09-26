@@ -22,11 +22,11 @@ var SESSION_PARAMETER : boolean = false;
 
 export class ProcessingLayer extends ResourceAwareConstruct {
 
-    private allocateFunction: Lambda.Function;
+    private allocateFunction: Lambda.Alias;
     public getAllocateFunctionArn() {
         return this.allocateFunction.functionArn;
     }
-    public getAllocateFunctionRef() : Lambda.Function {
+    public getAllocateFunctionRef() : Lambda.Alias {
         return this.allocateFunction;
     }
 
@@ -47,8 +47,9 @@ export class ProcessingLayer extends ResourceAwareConstruct {
         super(parent, name, props);
         let createdFunction: Lambda.Function | undefined | null = null;
 
-        createdFunction = this.getAllocateGamerFunction();
-        if (createdFunction) this.allocateFunction = createdFunction;
+        let allocateFunction: Lambda.Alias | undefined | null = null;
+        allocateFunction = this.getAllocateGamerFunction();
+        if (allocateFunction) this.allocateFunction = allocateFunction;
 
         createdFunction = this.getDeallocateGamerFunction();
         if (createdFunction) this.deallocateFunction = createdFunction;
@@ -126,7 +127,14 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                     })
                 }
             );
-            return createdFunction;
+            let version = createdFunction.currentVersion;
+            let alias = new Lambda.Alias(this, 'Live', {
+               aliasName: "live" ,
+               version: version,
+               provisionedConcurrentExecutions: 1
+            });
+            
+            return alias;
         }
         else return undefined;
     }

@@ -56,7 +56,8 @@ export class IngestionConsumptionLayer extends ResourceAwareConstruct {
         if (this.KINESIS_INTEGRATION) {
             new KinesisEventSource( this.kinesisStreams , {
                 batchSize: 700,
-                startingPosition : Lambda.StartingPosition.LATEST
+                startingPosition : Lambda.StartingPosition.LATEST,
+                parallelizationFactor: 10               
             }).bind(<Lambda.Function> props.getParameter('lambda.scoreboard'));
         }
     
