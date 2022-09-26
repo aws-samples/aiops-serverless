@@ -128,7 +128,7 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                 }
             );
             let version = createdFunction.currentVersion;
-            let alias = new Lambda.Alias(this, 'Live', {
+            let alias = new Lambda.Alias(this, 'allocate_alias', {
                aliasName: "live" ,
                version: version,
                provisionedConcurrentExecutions: 1
@@ -321,7 +321,7 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                 });
             
             let version = createdFunction.currentVersion;
-            let alias = new Lambda.Alias(this, 'Live', {
+            let alias = new Lambda.Alias(this, 'scoreboard_alias', {
                aliasName: "live" ,
                version: version,
                provisionedConcurrentExecutions: 1
