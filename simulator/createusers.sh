@@ -46,7 +46,7 @@ for (( i = 1; i <= $players; i++ )); do
     userPoolId=$( removeQuotes $( eval $getUserPoolId ) )
     # create the user
     aws cognito-idp admin-create-user --user-pool-id $userPoolId --username $userid --user-attributes Name=email,Value=$emailid Name=email_verified,Value=true Name=website,Value=aws.amazon.com --region ${AWS_REGION}
-    aws cognito-idp admin-enable-user --user-pool-id $userPoolId --username $userid
+    aws cognito-idp admin-enable-user --user-pool-id $userPoolId --username $userid --region ${AWS_REGION}
     aws cognito-idp admin-set-user-password --user-pool-id $userPoolId --username $userid --password $userpassword  --permanent --region ${AWS_REGION}
     # add the user to the manager's group
     aws cognito-idp admin-add-user-to-group --user-pool-id $userPoolId --username $userid --group-name Players --region ${AWS_REGION}
