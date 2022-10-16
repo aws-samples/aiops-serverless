@@ -42,14 +42,14 @@ for (( i = 1; i <= $players; i++ )); do
     echo "$userid,$userpassword,$emailid" >>players.csv
 
     echo "#### Creating the user $userid"
-    getUserPoolId=$(echo "aws cognito-idp list-user-pools --query 'UserPools[?Name == \`"$envname"\`]|[0].Id' --max-results=20")
+    getUserPoolId=$(echo "aws cognito-idp list-user-pools --query 'UserPools[?Name == \`"$envname"\`]|[0].Id' --max-results=20 --region ${AWS_REGION}")
     userPoolId=$( removeQuotes $( eval $getUserPoolId ) )
     # create the user
-    aws cognito-idp admin-create-user --user-pool-id $userPoolId --username $userid --user-attributes Name=email,Value=$emailid Name=email_verified,Value=true Name=website,Value=aws.amazon.com
+    aws cognito-idp admin-create-user --user-pool-id $userPoolId --username $userid --user-attributes Name=email,Value=$emailid Name=email_verified,Value=true Name=website,Value=aws.amazon.com --region ${AWS_REGION}
     aws cognito-idp admin-enable-user --user-pool-id $userPoolId --username $userid
-    aws cognito-idp admin-set-user-password --user-pool-id $userPoolId --username $userid --password $userpassword  --permanent
+    aws cognito-idp admin-set-user-password --user-pool-id $userPoolId --username $userid --password $userpassword  --permanent --region ${AWS_REGION}
     # add the user to the manager's group
-    aws cognito-idp admin-add-user-to-group --user-pool-id $userPoolId --username $userid --group-name Players
+    aws cognito-idp admin-add-user-to-group --user-pool-id $userPoolId --username $userid --group-name Players --region ${AWS_REGION}
     # deploy the fromt-end    
 done
 
