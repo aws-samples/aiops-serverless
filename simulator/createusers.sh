@@ -5,7 +5,7 @@
 # This script creates test users with password
 #
 ##
-
+SKIPINPUT=${1:-N}
 _DEBUG="on"
 
 function DEBUG() {
@@ -24,7 +24,13 @@ echo "This function will create and signup players"
 echo "**************************************************************"
 echo
 
-read -p "Number of players:" players
+if [ "$SKIPINPUT" == "N" ]; then 
+    read -p "Number of players:" players
+else
+    players=20
+fi
+
+
 echo "#### Creating users in AWS Cognito..."
 echo "username,password,emailid" >> players.csv
 
