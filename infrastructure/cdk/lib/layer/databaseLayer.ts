@@ -33,6 +33,10 @@ export class DatabaseLayer extends ResourceAwareConstruct {
       minCapacity: 1,
       maxCapacity: 1,
     });
+    sessionTable.autoScaleReadCapacity({
+      minCapacity: 1,
+      maxCapacity: 1,
+    });
     this.addResource("table.session", sessionTable);
 
     let sessionControlTable = new DynamoDB.Table(
