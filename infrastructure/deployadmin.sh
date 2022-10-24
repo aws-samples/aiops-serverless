@@ -27,8 +27,8 @@ echo "you will provide"
 echo "**************************************************************"
 echo
 username="admin"
-password="admin@123"
-password2="admin@123"
+password=$envname
+password2=$envname
 
 
 if [ "$SKIPINPUT" == "N" ]; then 
