@@ -20,7 +20,8 @@ export class DatabaseLayer extends ResourceAwareConstruct {
                 type : DynamoDB.AttributeType.STRING
             },
             billingMode : DynamoDB.BillingMode.PAY_PER_REQUEST   ,
-            removalPolicy : RemovalPolicy.DESTROY   
+            removalPolicy : RemovalPolicy.DESTROY   ,
+            pointInTimeRecovery : true
         });
         this.addResource('table.session',sessionTable);
 
@@ -31,7 +32,8 @@ export class DatabaseLayer extends ResourceAwareConstruct {
                 type : DynamoDB.AttributeType.STRING
             },
             billingMode : DynamoDB.BillingMode.PAY_PER_REQUEST,
-            removalPolicy : RemovalPolicy.DESTROY   
+            removalPolicy : RemovalPolicy.DESTROY   ,
+            pointInTimeRecovery : true
         });
         this.addResource('table.sessioncontrol',sessionControlTable);
 
@@ -42,7 +44,8 @@ export class DatabaseLayer extends ResourceAwareConstruct {
                 type : DynamoDB.AttributeType.STRING
             },
             billingMode : DynamoDB.BillingMode.PAY_PER_REQUEST,
-            removalPolicy : RemovalPolicy.DESTROY
+            removalPolicy : RemovalPolicy.DESTROY ,
+            pointInTimeRecovery : true
         });
         this.addResource('table.sessiontopx',sessionTopXTable);
     }
