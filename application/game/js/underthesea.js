@@ -559,7 +559,7 @@ function RegisterSuccessState() {
     this.modal = new Modal(document.getElementById("modalDialog"));
     var modalDialogString =
         `<h2>UnderTheSea:REGISTER - SUCCESS</h2>
-         <h3>You was successfully registered.</h3>
+         <h3>You were successfully registered.</h3>
          <h3>Check your e-mail and login.</h3>`;
     this.modal.show(modalDialogString, { actionOnClose: "game.modalClose()" });
 }
