@@ -86,6 +86,7 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                 new Lambda.Function(this, this.properties.getApplicationName() + 'AllocateGamerFn', {
                     runtime:Lambda.Runtime.NODEJS_14_X,
                     handler: 'index.handler',
+                    tracing: Lambda.Tracing.ACTIVE,
                     code: Lambda.Code.fromAsset(path.join(lambdasLocation,'allocateGamer')),
                     environment: {
                         'SESSION_CONTROL_TABLENAME': sessionControlTable.tableName,
@@ -164,6 +165,7 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                 new Lambda.Function(this, this.properties.getApplicationName() + 'DeallocateGamerFn', {
                     runtime:Lambda.Runtime.NODEJS_14_X,
                     handler: 'index.handler',
+                    tracing: Lambda.Tracing.ACTIVE,
                     code: Lambda.Code.fromAsset(path.join(lambdasLocation,'deallocateGamer')),
                     environment: {
                         'SESSION_CONTROL_TABLENAME': sessionControlTable.tableName,
@@ -246,6 +248,7 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                 new Lambda.Function(this, this.properties.getApplicationName() + 'ScoreboardFn', {
                     runtime:Lambda.Runtime.NODEJS_14_X,
                     handler: 'index.handler',
+                    tracing: Lambda.Tracing.ACTIVE,
                     code: Lambda.Code.fromAsset(path.join(lambdasLocation,'scoreboard')),
                     environment: {
                         'DLQ_URL': dlq.queueUrl,
