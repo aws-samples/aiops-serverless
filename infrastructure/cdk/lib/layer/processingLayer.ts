@@ -99,7 +99,7 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                     , role: new IAM.Role(this, this.properties.getApplicationName() + 'AllocateGamerFn_Role', {
                         roleName: this.properties.getApplicationName() + 'AllocateGamerFn_Role'
                         , assumedBy: new IAM.ServicePrincipal('lambda.amazonaws.com')
-                        , managedPolicies : [ ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole') ]
+                        , managedPolicies : [ ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'), ManagedPolicy.fromAwsManagedPolicyName('AWSXRayDaemonWriteAccess') ]
                         , inlinePolicies: {
                             'DynamoDBPermissions' :
                                 new IAM.PolicyDocument({
@@ -178,7 +178,7 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                     , role: new IAM.Role(this, this.properties.getApplicationName() + 'DeallocateGamerFn_Role', {
                         roleName: this.properties.getApplicationName() + 'DeallocateGamerFn_Role'
                         , assumedBy: new IAM.ServicePrincipal('lambda.amazonaws.com')
-                        , managedPolicies : [ ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole') ]
+                        , managedPolicies : [ ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'), ManagedPolicy.fromAwsManagedPolicyName('AWSXRayDaemonWriteAccess') ]
                         , inlinePolicies: {
                             'DynamoDBPermissions':
                                 new IAM.PolicyDocument({
@@ -265,7 +265,7 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                     , role: new IAM.Role(this, this.properties.getApplicationName() + 'ScoreboardFn_Role', {
                         roleName: this.properties.getApplicationName() + 'ScoreboardFn_Role'
                         , assumedBy: new IAM.ServicePrincipal('lambda.amazonaws.com')
-                        , managedPolicies : [ ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole') ]
+                        , managedPolicies : [ ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'), ManagedPolicy.fromAwsManagedPolicyName('AWSXRayDaemonWriteAccess') ]
                         , inlinePolicies: {
                             'DynamoDBPermissions':
                                 new IAM.PolicyDocument({
