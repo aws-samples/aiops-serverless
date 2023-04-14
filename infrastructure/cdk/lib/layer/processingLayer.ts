@@ -86,6 +86,7 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                 new Lambda.Function(this, this.properties.getApplicationName() + 'AllocateGamerFn', {
                     runtime:Lambda.Runtime.NODEJS_14_X,
                     handler: 'index.handler',
+                    tracing: Lambda.Tracing.ACTIVE,
                     code: Lambda.Code.fromAsset(path.join(lambdasLocation,'allocateGamer')),
                     environment: {
                         'SESSION_CONTROL_TABLENAME': sessionControlTable.tableName,
@@ -98,7 +99,7 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                     , role: new IAM.Role(this, this.properties.getApplicationName() + 'AllocateGamerFn_Role', {
                         roleName: this.properties.getApplicationName() + 'AllocateGamerFn_Role'
                         , assumedBy: new IAM.ServicePrincipal('lambda.amazonaws.com')
-                        , managedPolicies : [ ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole') ]
+                        , managedPolicies : [ ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'), ManagedPolicy.fromAwsManagedPolicyName('AWSXRayDaemonWriteAccess') ]
                         , inlinePolicies: {
                             'DynamoDBPermissions' :
                                 new IAM.PolicyDocument({
@@ -164,6 +165,7 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                 new Lambda.Function(this, this.properties.getApplicationName() + 'DeallocateGamerFn', {
                     runtime:Lambda.Runtime.NODEJS_14_X,
                     handler: 'index.handler',
+                    tracing: Lambda.Tracing.ACTIVE,
                     code: Lambda.Code.fromAsset(path.join(lambdasLocation,'deallocateGamer')),
                     environment: {
                         'SESSION_CONTROL_TABLENAME': sessionControlTable.tableName,
@@ -176,7 +178,7 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                     , role: new IAM.Role(this, this.properties.getApplicationName() + 'DeallocateGamerFn_Role', {
                         roleName: this.properties.getApplicationName() + 'DeallocateGamerFn_Role'
                         , assumedBy: new IAM.ServicePrincipal('lambda.amazonaws.com')
-                        , managedPolicies : [ ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole') ]
+                        , managedPolicies : [ ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'), ManagedPolicy.fromAwsManagedPolicyName('AWSXRayDaemonWriteAccess') ]
                         , inlinePolicies: {
                             'DynamoDBPermissions':
                                 new IAM.PolicyDocument({
@@ -246,6 +248,7 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                 new Lambda.Function(this, this.properties.getApplicationName() + 'ScoreboardFn', {
                     runtime:Lambda.Runtime.NODEJS_14_X,
                     handler: 'index.handler',
+                    tracing: Lambda.Tracing.ACTIVE,
                     code: Lambda.Code.fromAsset(path.join(lambdasLocation,'scoreboard')),
                     environment: {
                         'DLQ_URL': dlq.queueUrl,
@@ -262,7 +265,7 @@ export class ProcessingLayer extends ResourceAwareConstruct {
                     , role: new IAM.Role(this, this.properties.getApplicationName() + 'ScoreboardFn_Role', {
                         roleName: this.properties.getApplicationName() + 'ScoreboardFn_Role'
                         , assumedBy: new IAM.ServicePrincipal('lambda.amazonaws.com')
-                        , managedPolicies : [ ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole') ]
+                        , managedPolicies : [ ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'), ManagedPolicy.fromAwsManagedPolicyName('AWSXRayDaemonWriteAccess') ]
                         , inlinePolicies: {
                             'DynamoDBPermissions':
                                 new IAM.PolicyDocument({
