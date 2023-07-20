@@ -2,7 +2,7 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
 import cdk = require('aws-cdk-lib');
-
+import { Tags } from 'aws-cdk-lib';
 import { MainLayer } from '../lib/layer/mainLayer';
 import { NRTAProps } from '../lib/nrta';
 import { Utils } from '../lib/util/utils'
@@ -55,7 +55,9 @@ Utils.checkforExistingBuckets(initProps.getBucketNames())
         if (listOfExistingBuckets && listOfExistingBuckets.length > 0)
             console.log("# The following buckets are NOT being created because they already exist: ", listOfExistingBuckets);
         initProps.addParameter('existingbuckets', listOfExistingBuckets);
-        new MainLayer(app, initProps.getApplicationName(), initProps);
+        const stack = new MainLayer(app, initProps.getApplicationName(), initProps);
+
+        Tags.of(stack).add('devops-guru-aiops', 'serverless');
 })
     .catch((errorList) => {
         console.log(errorList);
